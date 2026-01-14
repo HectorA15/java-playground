@@ -1,5 +1,6 @@
 package collections.libraryExample;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -8,6 +9,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BookTest {
     LibraryManager services = new LibraryManager();
+
+    @BeforeEach
+    public void setup() {
+        services = new LibraryManager();
+    }
 
     @Test
     public void testDelete() {
@@ -47,4 +53,29 @@ public class BookTest {
         books = services.listBy("Distopia");
         assertEquals(1, books.size());
     }
+
+    @Test
+    public void testRejectDuplicateIsbn() {
+        Book book = new Book("Dune", "Frank Herbert", "SciFi", 847141221, 1965);
+        services.registerBook(book);
+        assertEquals(1, services.getAllBooks().size());
+        services.registerBook(book); // Intentar registrar el mismo libro
+        assertEquals(1, services.getAllBooks().size()); // No debería crecer
+    }
+
+    @Test
+    public void testFindNonExistentGenre() {
+        services.registerBook(new Book("1984", "Orwell", "Distopia", 451L, 1949));
+        List<Book> books = services.findBooksByGenre("SciFi"); // Género que no existe
+        assertEquals(0, books.size()); // Debe devolver vacío
+    }
+
+    @Test
+    public void testFindBooksCaseInsensitive() {
+        services.registerBook(new Book("1984", "Orwell", "Distopia", 451L, 1949));
+        List<Book> books = services.findBooksByGenre("distoPia"); // Búsqueda con mayúsculas/mixtas
+        assertEquals(1, books.size()); // Normalización debería funcionar
+    }
+
+
 }
