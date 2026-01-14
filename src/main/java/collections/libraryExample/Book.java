@@ -6,13 +6,13 @@ public class Book {
     private String author;
     private String genre;
     private String publisher;
-    private int ISBN;
+    private long ISBN;
     private int year;
 
     public Book() {
     }
 
-    public Book(String title, String author, String genre, int ISBN, int year) {
+    public Book(String title, String author, String genre, long ISBN, int year) {
         this.title = title;
         this.author = author;
         this.genre = genre;
@@ -58,11 +58,11 @@ public class Book {
         this.genre = genre;
     }
 
-    public int getISBN() {
+    public long getISBN() {
         return ISBN;
     }
 
-    public void setISBN(int ISBN) {
+    public void setISBN(long ISBN) {
         this.ISBN = ISBN;
     }
 
