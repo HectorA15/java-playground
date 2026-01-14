@@ -1,6 +1,8 @@
 package collections.libraryExample;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -13,10 +15,9 @@ public class Main {
                 new Book("Dune", "Frank Herbert", "SciFi", 847141221, 1965)
         ));
 
-        Map<Long, Book> catalogue = new HashMap<>();
+        LibraryManager manager = new LibraryManager();
 
-        b.forEach(book -> catalogue.put(book.getISBN(), book));
-
+        b.forEach(manager::registerBook);
 
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -35,16 +36,17 @@ public class Main {
 
             System.out.print("Enter your choice: ");
 
+
             if (scanner.hasNextLong()) {
                 int choice = scanner.nextInt();
                 scanner.nextLine();
                 switch (choice) {
-                    case 1 -> registerBook(scanner, catalogue);
-                    case 2 -> deleteBook(scanner, catalogue);
-                    case 3 -> searchBook(scanner, catalogue);
-                    case 4 -> catalogue.values().forEach(System.out::println);
-                    case 5 -> listBy(scanner, "author", catalogue);
-                    case 6 -> listBy(scanner, "genre", catalogue);
+                    case 1 -> registerBook(scanner, manager);
+                    case 2 -> deleteBook(scanner, manager);
+                    case 3 -> searchBookByISBN(scanner, manager);
+                    case 4 -> manager.getAllBooks();
+                    case 5 -> listBy(scanner, "author", manager);
+                    case 6 -> listBy(scanner, "genre", manager);
                     case 7 -> running = false;
                 }
             } else {
@@ -55,15 +57,14 @@ public class Main {
         scanner.close();
     }
 
-    private static void registerBook(Scanner scanner, Map<Long, Book> catalogue) {
-        System.out.println("Enter book details: ");
+    private static void registerBook(Scanner scanner, LibraryManager manager) {
+        System.out.println("Enter book details");
         System.out.print("Title: ");
         String title = scanner.nextLine();
         System.out.print("Author: ");
         String author = scanner.nextLine();
         System.out.print("Genre: ");
         String genre = scanner.nextLine();
-
         long isbn;
         while (true) {
             System.out.print("Enter ISBN: ");
@@ -74,13 +75,12 @@ public class Main {
             }
             isbn = scanner.nextLong();
             scanner.nextLine();
-            if (catalogue.containsKey(isbn)) {
+            if (manager.exists(isbn)) {
                 System.out.println("Error: ISBN already exists.");
                 continue;
             }
             break;
         }
-
         int year;
         while (true) {
             System.out.print("Enter Year: ");
@@ -95,58 +95,60 @@ public class Main {
 
         Book book = new Book(title, author, genre, isbn, year);
         System.out.println("Registering a book...");
-        catalogue.put(book.getISBN(), book);
+        manager.registerBook(book);
         System.out.println("Book '" + title + "' registered successfully!");
     }
 
-
-    private static void deleteBook(Scanner scanner, Map<Long, Book> catalogue) {
-        System.out.println("Enter ISBN: ");
-        long isbnToDelete;
+    private static void deleteBook(Scanner scanner, LibraryManager manager) {
+        System.out.print("Enter ISBN of the book to delete: ");
+        long isbn;
         while (true) {
+            System.out.print("Enter ISBN: ");
             if (!scanner.hasNextLong()) {
                 System.out.println("Invalid input. Please enter numbers only.");
                 scanner.nextLine();
                 continue;
             }
-            isbnToDelete = scanner.nextLong();
+            isbn = scanner.nextLong();
             scanner.nextLine();
             break;
         }
-
-        System.out.println("Deleting a book...");
-        Book removedBook = catalogue.remove(isbnToDelete);
-
-        if (removedBook != null) {
-            System.out.println("Success! Deleted: " + removedBook.getTitle());
+        if (manager.deleteBook(isbn)) {
+            System.out.println("Book deleted successfully!");
         } else {
-            System.out.println("Error: No book found with ISBN " + isbnToDelete);
+            System.out.println("Error: Book not found.");
         }
     }
 
-    private static void searchBook(Scanner scanner, Map<Long, Book> catalogue) {
-        System.out.println("Enter ISBN: ");
-        long isbn = scanner.nextLong();
-        System.out.println("Searching a book...");
-        if (!catalogue.containsKey(isbn)) {
-            System.out.println("No book found with ISBN " + isbn);
-        } else {
-            System.out.println("Found book: " + catalogue.get(isbn));
+    private static void searchBookByISBN(Scanner scanner, LibraryManager manager) {
+        System.out.println("Enter ISBN of the book to search: ");
+        long isbn;
+        while (true) {
+            System.out.print("Enter ISBN: ");
+            if (!scanner.hasNextLong()) {
+                System.out.println("Invalid input. Please enter numbers only.");
+                scanner.nextLine();
+                continue;
+            }
+            isbn = scanner.nextLong();
+            scanner.nextLine();
+            break;
         }
-
+        Book book = manager.findBookByIsbn(isbn);
+        if (book != null) {
+            System.out.println(book);
+        } else {
+            System.out.println("Error: Book not found.");
+        }
     }
 
-    private static void listBy(Scanner scanner, String type, Map<Long, Book> catalogue) {
-        //
+    private static void listBy(Scanner scanner, String type, LibraryManager manager) {
         if (type.equals("author")) {
             System.out.println("Enter Author: ");
             String authorInput = scanner.nextLine().trim().toLowerCase();
 
             System.out.println("Listing by Author...");
-            List<Book> booksByAuthor = catalogue.values().stream()
-                    .filter(book -> book.getAuthor().trim().toLowerCase().equalsIgnoreCase(authorInput))
-                    .sorted(Comparator.comparing(Book::getTitle))
-                    .toList();
+            List<Book> booksByAuthor = manager.listBy(authorInput);
             if (booksByAuthor.isEmpty()) {
                 System.out.println("No books found for author: " + authorInput);
             } else {
@@ -157,9 +159,8 @@ public class Main {
             System.out.println("Enter Genre: ");
             String genre = scanner.nextLine();
             System.out.println("Listing by Genre...");
-            List<Book> booksByGenre = catalogue.values().stream().filter(book -> book.getGenre().equals(genre))
-                    .sorted(Comparator.comparing(Book::getTitle))
-                    .toList();
+
+            List<Book> booksByGenre = manager.listBy(genre);
             if (booksByGenre.isEmpty()) {
                 System.out.println("No books found for genre: " + genre);
             } else {
@@ -168,3 +169,4 @@ public class Main {
         }
     }
 }
+
