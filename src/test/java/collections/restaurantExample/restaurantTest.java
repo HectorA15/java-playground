@@ -1,7 +1,5 @@
-package collections.restarantExample;
+package collections.restaurantExample;
 
-import collections.restaurantExample.Order;
-import collections.restaurantExample.restaurantManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
