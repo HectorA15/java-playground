@@ -29,8 +29,7 @@ public class Main {
 
         System.out.println("\n================================ Grouped by department ===================================");
         analyze.groupedByDepartments(employees).forEach((dept, list) -> {
-            System.out.println(dept + ": " + list.stream()
-                    .map(Employee::getName).toList());
+            System.out.println(dept + ": " + analyze.sortedNames(list));
         });
         System.out.println("\n====================== Quantity of employees of each department ==========================");
         analyze.employeesByDepartment(employees).forEach((dept, qty) -> {
