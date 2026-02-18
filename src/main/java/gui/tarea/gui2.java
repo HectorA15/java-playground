@@ -1,24 +1,24 @@
-package gui;
+package gui.tarea;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SwingExample2 extends JFrame {
+public class gui2 extends JFrame {
+
     JLabel pregunta;
     JRadioButton respuestaSi;
     JRadioButton respuestaNo;
     JButton aceptar;
 
-    public SwingExample2() {
+    public gui2() {
         //Frame
         super("Sondeo de opinion");
         this.setLayout(new FlowLayout());
 
         JPanel panelPrincipal = new JPanel();
         panelPrincipal.setLayout(new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
-
 
         pregunta = new JLabel("¿Entendiste la clase?");
         pregunta.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -39,17 +39,7 @@ public class SwingExample2 extends JFrame {
         panelPrincipal.add(Box.createVerticalStrut(10));
 
         aceptar = new JButton("Aceptar");
-        aceptar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JDialog.setDefaultLookAndFeelDecorated(true);
-                if (respuestaSi.isSelected()) {
-                    JOptionPane.showMessageDialog(null, "Okey, entonces sigamos", "Si entendiste!", JOptionPane.INFORMATION_MESSAGE);
-                } else if (respuestaNo.isSelected()) {
-                    JOptionPane.showMessageDialog(null, "Toca estudiar", "No entendiste...", JOptionPane.ERROR_MESSAGE);
-                }
-
-            }
-        });
+        aceptar.addActionListener(new ButtonListener()); // <- Usamos la clase interna ButtonListener
         aceptar.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelPrincipal.add(aceptar);
 
@@ -62,10 +52,21 @@ public class SwingExample2 extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingExample2 app = new SwingExample2();
+        gui2 app = new gui2();
         app.setVisible(true);
 
+    }
 
+    private class ButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JDialog.setDefaultLookAndFeelDecorated(true);
+            if (respuestaSi.isSelected()) {
+                JOptionPane.showMessageDialog(null, "Okey, entonces sigamos", "Si entendiste!", JOptionPane.INFORMATION_MESSAGE);
+            } else if (respuestaNo.isSelected()) {
+                JOptionPane.showMessageDialog(null, "Toca estudiar", "No entendiste...", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
 }

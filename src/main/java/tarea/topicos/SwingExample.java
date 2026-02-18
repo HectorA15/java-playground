@@ -1,4 +1,4 @@
-package gui;
+package tarea.topicos;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package gui;
+package tarea.topicos;
 
 import javafx.application.Application;
 import javafx.geometry.HPos;
