@@ -1,4 +1,4 @@
-package tarea.simulacion;
+package tarea.simulacion.Tema2;
 
 import java.util.Scanner;
 
@@ -9,7 +9,7 @@ public class SimuladorServidor {
         Scanner scanner = new Scanner(System.in);
 
         // iniciamos el generador Mersenne Twister con el tiempo actual
-        MersenneTwister mt = new MersenneTwister(System.currentTimeMillis());
+        MersenneTwisterDos mt = new MersenneTwisterDos(System.currentTimeMillis());
 
         System.out.println("=== PRUEBA DE ESTRES DE SERVIDOR  ===");
 
@@ -60,7 +60,7 @@ public class SimuladorServidor {
 }
 
 
-class MersenneTwister {
+class MersenneTwisterDos {
     private static final int N = 624;
     private static final int M = 397;
     private static final int MATRIX_A = 0x9908b0df;
@@ -70,7 +70,7 @@ class MersenneTwister {
     private int[] mt = new int[N];
     private int mti = N + 1;
 
-    public MersenneTwister(long seed) {
+    public MersenneTwisterDos(long seed) {
         mt[0] = (int) seed;
         for (mti = 1; mti < N; mti++) {
             mt[mti] = (1812433253 * (mt[mti - 1] ^ (mt[mti - 1] >>> 30)) + mti);

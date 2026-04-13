@@ -1,4 +1,4 @@
-package tarea.simulacion;
+package tarea.simulacion.Tema2;
 
 import java.util.ArrayList;
 import java.util.Scanner;
