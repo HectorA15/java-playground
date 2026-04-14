@@ -1,4 +1,4 @@
-package tarea.simulacion.Tema3;
+package tarea.simulacion.tema3;
 
 import java.util.HashSet;
 import java.util.Random;
