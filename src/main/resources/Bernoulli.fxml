@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:id="vbx" alignment="CENTER" prefHeight="720.0" prefWidth="584.0"
-      spacing="15.0" xmlns="http://javafx.com/javafx/25"
+      spacing="15.0" xmlns="http://javafx.com/javafx/21"
       fx:controller="tarea.simulacion.tema4.bernoulli.ForjaController">
 
     <padding>
