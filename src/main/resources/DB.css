@@ -1,0 +1,115 @@
+/* --- FONDO PRINCIPAL --- */
+.root {
+    -fx-background-color: #05080c;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+
+/* --- FONDO INFERIOR --- */
+#hboxInferior {
+    -fx-background-color: #0c1019;
+}
+
+/* --- TEXTOS GLOBALES --- */
+.label {
+    -fx-text-fill: #E0E0E0;
+    -fx-font-weight: bold;
+}
+
+.button {
+    -fx-background-color: #4287f5;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 20px;
+    -fx-cursor: hand;
+    -fx-transition: -fx-background-color 0.3s ease-in-out;
+}
+
+.button:hover {
+    -fx-background-color: #2b6cc4; /* Azul default */
+}
+
+.button.btn-disconnect {
+    -fx-background-color: #a30505;
+}
+
+.button.btn-diconnect:hover {
+    -fx-background-color: #7a0303;
+}
+
+.button.btn-connect {
+    -fx-background-color: #11af11;
+}
+
+.button.btn-connect:hover {
+    -fx-background-color: #108510;
+}
+
+
+.button:disabled {
+    -fx-background-color: #555555;
+    -fx-text-fill: #888888;
+}
+
+
+.data-header {
+    -fx-font-size: 16;
+    -fx-text-fill: #df9f30;
+    -fx-padding: 5;
+    -fx-border-width: 0 0 2 0;
+}
+
+
+/* --- SLIDER --- */
+.slider .track {
+    -fx-background-color: #333333;
+    -fx-background-radius: 5px;
+}
+
+.slider .thumb {
+    -fx-background-color: #4287f5;
+    -fx-background-radius: 10px;
+}
+
+.slider .thumb:hover {
+    -fx-background-color: #00FF00;
+}
+
+/* --- TEXTFIELD --- */
+.text-field {
+    -fx-background-color: #1E1E1E;
+    -fx-text-fill: #00FF00;
+    -fx-font-weight: bold;
+    -fx-border-color: #444444;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+/* --- SCROLLPANE  --- */
+.scroll-pane {
+    -fx-background-color: #2d2e3c;
+
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* --- SCROLLBAR  --- */
+.scroll-bar {
+    -fx-background-color: transparent;
+    -fx-pref-width: 10px;
+}
+
+.scroll-bar:vertical.thumb {
+    -fx-background-color: #555555;
+    -fx-background-radius: 5px;
+}
+
+
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: #555555;
+    -fx-background-radius: 5px;
+}

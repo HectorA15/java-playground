@@ -1,4 +1,4 @@
-package tarea.topicos;
+package tarea.topicos.tema1;
 
 import javax.swing.*;
 import java.awt.*;
