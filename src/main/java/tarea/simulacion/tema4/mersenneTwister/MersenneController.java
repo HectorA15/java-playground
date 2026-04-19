@@ -1,57 +1,215 @@
 package tarea.simulacion.tema4.mersenneTwister;
 
-import javafx.event.ActionEvent;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import org.apache.commons.math3.random.MersenneTwister;
 
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Random;
 
 public class MersenneController {
-    @FXML
-    private Button btnMersenne;
 
+    private final Map<TipoGrafico, Canvas> canvases = new EnumMap<>(TipoGrafico.class);
     @FXML
     private Slider slider;
-
     @FXML
     private TextField txtNum;
-
+    private final Map<TipoGrafico, AnimationTimer> timers = new EnumMap<>(TipoGrafico.class);
     @FXML
-    private Canvas lienzo;
+    private ToggleButton btnMT, btnRND, btnMS, btnLFSR;
+    @FXML
+    private GridPane gridGraficos;
 
     @FXML
     public void initialize() {
-
-        slider.setMin(0);
+        slider.setMin(100);
         slider.setMax(10000);
-        slider.setValue(0);
-        txtNum.setText("0");
+        slider.setValue(1000);
+        txtNum.setText(String.format("%.0f", slider.getValue()));
 
-        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            txtNum.setText(String.format("%.0f", newValue.doubleValue()));
+        slider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            txtNum.setText(String.format("%.0f", newVal.doubleValue()));
+            redibujarActivos();
         });
+
+        btnMT.setOnAction(e -> toggle(TipoGrafico.MT, btnMT));
+        btnRND.setOnAction(e -> toggle(TipoGrafico.RND, btnRND));
+        btnMS.setOnAction(e -> toggle(TipoGrafico.MS, btnMS));
+        btnLFSR.setOnAction(e -> toggle(TipoGrafico.LFSR, btnLFSR));
     }
 
-
-    @FXML
-    public void mostrarMT(ActionEvent event) {
-
-
+    private void toggle(TipoGrafico tipo, ToggleButton btn) {
+        if (btn.isSelected()) {
+            Canvas c = new Canvas(360, 250);
+            c.setStyle("-fx-border-color: #444; -fx-border-width: 1;");
+            canvases.put(tipo, c);
+            reorganizarGrid();
+            dibujar(tipo, c);
+        } else {
+            AnimationTimer t = timers.remove(tipo);
+            if (t != null) t.stop();
+            Canvas c = canvases.remove(tipo);
+            if (c != null) gridGraficos.getChildren().remove(c);
+            reorganizarGrid();
+        }
     }
 
-    @FXML
-    public void mostrarRND(ActionEvent event) {
+    private void reorganizarGrid() {
+        gridGraficos.getChildren().clear();
+        int i = 0;
+        for (TipoGrafico t : TipoGrafico.values()) {
+            Canvas c = canvases.get(t);
+            if (c != null) {
+                gridGraficos.add(c, i % 2, i / 2);
+                i++;
+            }
+        }
     }
 
-    @FXML
-    public void mostrarMS(ActionEvent event) {
+    private void redibujarActivos() {
+        for (TipoGrafico tipo : TipoGrafico.values()) {
+            Canvas c = canvases.get(tipo);
+            if (c != null) dibujar(tipo, c);
+        }
     }
 
-    @FXML
-    public void mostrarLFSR(ActionEvent event) {
+    private String nombreCompleto(TipoGrafico tipo) {
+        return switch (tipo) {
+            case MT -> "Mersenne Twister";
+            case RND -> "Java Random";
+            case MS -> "Middle Square";
+            case LFSR -> "Linear Feedback Shift Register";
+        };
     }
 
+    private void dibujar(TipoGrafico tipo, Canvas canvas) {
+        AnimationTimer old = timers.remove(tipo);
+        if (old != null) old.stop();
 
+        int total = (int) slider.getValue();
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        double w = canvas.getWidth();
+        double h = canvas.getHeight();
+
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0, 0, w, h);
+        gc.setFill(Color.WHITE);
+        gc.setFont(Font.font("Segoe UI", FontWeight.BOLD, 16));
+        gc.fillText(nombreCompleto(tipo), 8, 14);
+        gc.setFill(color(tipo));
+
+        RandomLike gen = crearGenerador(tipo);
+
+        AnimationTimer timer = new AnimationTimer() {
+            final int porFrame = 800;
+            int count = 0;
+
+            @Override
+            public void handle(long now) {
+                for (int i = 0; i < porFrame && count < total; i++) {
+                    double x = gen.next() * w;
+                    double y = gen.next() * h + 20;
+                    gc.fillOval(x, y, 2, 2);
+                    count++;
+                }
+                if (count >= total) stop();
+            }
+        };
+
+        timers.put(tipo, timer);
+        timer.start();
+    }
+
+    private Color color(TipoGrafico t) {
+        return switch (t) {
+            case MT -> Color.CYAN;
+            case RND -> Color.LIME;
+            case MS -> Color.RED;
+            case LFSR -> Color.YELLOW;
+        };
+    }
+
+    private RandomLike crearGenerador(TipoGrafico t) {
+        return switch (t) {
+            case MT -> new MTGen();
+            case RND -> new RndGen();
+            case MS -> new MsGen(System.nanoTime());
+            case LFSR -> new LfsrGen(0xACE1);
+        };
+    }
+
+    enum TipoGrafico {MT, RND, MS, LFSR}
+
+    interface RandomLike {
+        double next();
+    }
+
+    static class MTGen implements RandomLike {
+        MersenneTwister mt = new MersenneTwister();
+
+        public double next() {
+            return mt.nextDouble();
+        }
+    }
+
+    static class RndGen implements RandomLike {
+        Random r = new Random();
+
+        public double next() {
+            return r.nextDouble();
+        }
+    }
+
+    static class MsGen implements RandomLike {
+        long x;
+        int repeats = 0;
+        long last = -1;
+
+        MsGen(long seed) {
+            x = Math.abs(seed % 100000);
+            if (x < 10000) x += 10000;
+        }
+
+        public double next() {
+            long sq = x * x;
+            String s = String.format("%010d", sq);
+            x = Long.parseLong(s.substring(3, 8));
+
+            if (x == last) repeats++;
+            else repeats = 0;
+
+            if (x == 0 || repeats > 3) {
+                x = (System.nanoTime() % 90000) + 10000;
+                repeats = 0;
+            }
+
+            last = x;
+            return x / 100000.0;
+        }
+    }
+
+    static class LfsrGen implements RandomLike {
+        int state;
+
+        LfsrGen(int seed) {
+            state = seed == 0 ? 0xACE1 : seed;
+        }
+
+        public double next() {
+            int lsb = state & 1;
+            state >>>= 1;
+            if (lsb == 1) state ^= 0xB400;
+            return (state & 0xFFFF) / 65536.0;
+        }
+    }
 }

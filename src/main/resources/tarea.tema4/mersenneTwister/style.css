@@ -50,9 +50,9 @@
     -fx-background-color: #4287f5;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-font-size: 14px;
+    -fx-font-size: 12px;
     -fx-background-radius: 8px;
-    -fx-padding: 8px 20px;
+    -fx-padding: 6px 6px;
     -fx-cursor: hand;
 }
 
@@ -77,17 +77,27 @@
 }
 
 .slider .thumb:hover {
-    -fx-background-color: #00FF00;
+    -fx-background-color: #75a3f3;
 }
 
 /* --- TEXTFIELD --- */
 .text-field {
     -fx-background-color: #1E1E1E;
-    -fx-text-fill: #00FF00;
+    -fx-text-fill: #ffffff;
     -fx-font-weight: bold;
     -fx-border-color: #444444;
     -fx-border-radius: 4px;
     -fx-background-radius: 4px;
+}
+
+.toggle-button {
+    -fx-background-color: #4287f5;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-background-radius: 2px;
+    -fx-padding: 6px 6px;
+    -fx-cursor: hand;
 }
 
 /* --- SCROLLPANE  --- */
