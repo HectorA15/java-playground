@@ -11,7 +11,7 @@ public class MainBernoulli extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // El FXMLLoader lee tu archivo XML y construye la ventana
-        Parent root = FXMLLoader.load(getClass().getResource("/Bernoulli.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/tarea/tema4/bernoulli/Bernoulli.fxml"));
 
         primaryStage.setTitle("Simulador Bernoulli - Forja");
         primaryStage.setScene(new Scene(root));

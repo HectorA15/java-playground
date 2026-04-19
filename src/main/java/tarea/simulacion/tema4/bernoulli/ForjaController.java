@@ -81,7 +81,7 @@ public class ForjaController {
                     }
                 }));
 
-                // F Resultado individual
+                // Resultado individual
                 timeline.getKeyFrames().add(new KeyFrame(Duration.millis(tiempoAcumulado + 1400), e -> {
                     if (fueExito) {
                         txtAreaLog.setStyle("-fx-control-inner-background: #000000; -fx-text-fill: #00FF00;");
@@ -92,14 +92,11 @@ public class ForjaController {
                     }
                 }));
 
-                // 3. ¡LA CLAVE! Aumentamos el tiempo acumulado para el SIGUIENTE material
-                // Le damos 2000 ms (2 segundos) a cada ciclo para que haya una breve pausa entre golpes
                 tiempoAcumulado += 3000;
             }
 
-            // 4. FRAME FINAL: Resumen de toda la forja
             final int totalExitos = exitosReales;
-            final boolean exitoTotal = (exitosReales >= k);
+
 
             timeline.getKeyFrames().add(new KeyFrame(Duration.millis(tiempoAcumulado), e -> {
                 txtAreaLog.setStyle("-fx-control-inner-background: #191919; -fx-text-fill: #FFFFFF;");
@@ -109,7 +106,6 @@ public class ForjaController {
 
             }));
 
-            // 5. REPRODUCIMOS LA PELÍCULA COMPLETA
             timeline.play();
 
         } catch (Exception e) {
@@ -161,9 +157,7 @@ public class ForjaController {
         txtAreaLog.setStyle("-fx-control-inner-background: #191919; -fx-text-fill: #ffffff;");
         vbx.setStyle("-fx-background-color: #191919; -fx-control-inner-background: #2e2e2e; -fx-text-fill: #ffffff;");
 
-        Platform.runLater(() -> {
-            vbx.lookupAll(".label").forEach(nodo -> nodo.setStyle("-fx-text-fill: white;"));
-        });
+        Platform.runLater(() -> vbx.lookupAll(".label").forEach(nodo -> nodo.setStyle("-fx-text-fill: white;")));
 
         txtMaterial.textProperty().addListener((obs, oldVal, newVal) -> intentarActualizarLabel());
         txtExitos.textProperty().addListener((obs, oldVal, newVal) -> intentarActualizarLabel());

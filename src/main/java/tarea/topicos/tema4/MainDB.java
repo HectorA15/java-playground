@@ -12,7 +12,7 @@ public class MainDB extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/DB.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/db/DB.fxml")));
         primaryStage.setTitle("Database Connection");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
