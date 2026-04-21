@@ -1,0 +1,157 @@
+/* --- FONDO PRINCIPAL --- */
+.root {
+    -fx-background-color: #293239;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+
+.chart-plot-background {
+    -fx-background-color: #101218;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: #E0E0E0;
+}
+
+.chart {
+    -fx-background-radius: 15px;
+    -fx-background-color: #101218;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: #E0E0E0;
+}
+
+
+.chart .axis {
+    -fx-tick-label-fill: #E0E0E0; /* Esta es la propiedad correcta para pintar los números */
+    -fx-font-family: "Segoe UI";
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+
+.chart .axis-tick-mark,
+.chart .axis-minor-tick-mark {
+    -fx-stroke: #343a43; /* Pinta las rayitas separadoras */
+}
+
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines {
+    -fx-stroke: #343a43; /* Gris oscuro sutil */
+    -fx-stroke-dash-array: 4 4; /* Patrón del punteado */
+}
+
+/* --- TEXTO DE ESTADO --- */
+#txtEstado {
+    -fx-background-color: #286728;
+    -fx-text-fill: #E0E0E0;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-padding: 10px;
+    -fx-alignment: center;
+
+}
+
+#txtEstado:disabled {
+    -fx-background-color: #571010;
+    -fx-text-fill: #E0E0E0;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-padding: 10px;
+    -fx-alignment: center;
+
+}
+
+/* --- TEXTO DE HORARIO --- */
+#txtHora {
+    -fx-text-fill: #E0E0E0;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-alignment: center;
+}
+
+/* --- FONDO INFERIOR --- */
+.hbox {
+    -fx-background-color: #192a42;
+}
+
+/* --- TEXTOS GLOBALES --- */
+.label {
+    -fx-text-fill: #E0E0E0;
+    -fx-font-weight: bold;
+}
+
+/* --- BOTON INICIAR --- */
+.button {
+    -fx-background-color: #4287f5;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-background-radius: 8px;
+    -fx-padding: 6px 6px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #2b6cc4;
+}
+
+.button:disabled {
+    -fx-background-color: #555555;
+    -fx-text-fill: #888888;
+}
+
+/* --- SLIDER --- */
+.slider .track {
+    -fx-background-color: #6a6a6a;
+    -fx-background-radius: 5px;
+}
+
+.slider .thumb {
+    -fx-background-color: #4287f5;
+    -fx-background-radius: 10px;
+}
+
+.slider .thumb:hover {
+    -fx-background-color: #75a3f3;
+}
+
+/* --- TEXTFIELD --- */
+.text-field {
+    -fx-background-color: #1E1E1E;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-border-color: #444444;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+.toggle-button {
+    -fx-background-color: #4287f5;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-background-radius: 2px;
+    -fx-padding: 6px 6px;
+    -fx-cursor: hand;
+}
+
+/* --- SCROLLPANE  --- */
+.scroll-pane {
+    -fx-background-color: #2d2e3c;
+
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* --- SCROLLBAR  --- */
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 10px;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #555555;
+    -fx-background-radius: 5px;
+}
